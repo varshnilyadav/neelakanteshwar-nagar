@@ -267,4 +267,71 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ---- Interactive 2D Floor Plan Tooltip & Highlighting ----
+  const roomRects = document.querySelectorAll('.room-rect');
+  const floorTooltip = document.getElementById('floorTooltip');
+  const tooltipName = document.getElementById('tooltipName');
+  const tooltipDim = document.getElementById('tooltipDim');
+
+  const roomDetails = {
+    parking: { name: 'Parking Area', dim: "10' × 15'" },
+    kitchen: { name: 'Kitchen Room', dim: "15' × 15'" },
+    stairs: { name: 'Stairs Area', dim: "5.5' × 10.5'" },
+    puja: { name: 'Puja Room', dim: "4' × 5'" },
+    living: { name: 'Living / Dining Hall', dim: "17' × 15'" },
+    cwc: { name: 'Common Washroom', dim: "5.5' × 8.5'" },
+    child: { name: "Children Bedroom", dim: "12' × 12'" },
+    wcdress: { name: 'WC / Dress Room', dim: "8' × 6'" },
+    master: { name: 'Master Bedroom', dim: "14' × 14'" }
+  };
+
+  if (roomRects.length && floorTooltip) {
+    roomRects.forEach(rect => {
+      const roomKey = rect.getAttribute('data-room');
+      const detail = roomDetails[roomKey];
+
+      if (!detail) return;
+
+      const updateTooltip = () => {
+        tooltipName.textContent = detail.name;
+        tooltipDim.textContent = detail.dim;
+        floorTooltip.setAttribute('visibility', 'visible');
+
+        const x = parseFloat(rect.getAttribute('x'));
+        const y = parseFloat(rect.getAttribute('y'));
+        const w = parseFloat(rect.getAttribute('width'));
+        const h = parseFloat(rect.getAttribute('height'));
+
+        // Center tooltip over room rect (tooltip width is 130, height is 44)
+        const tx = (x + w / 2) - 65;
+        const ty = (y + h / 2) - 22;
+
+        floorTooltip.setAttribute('transform', `translate(${tx}, ${ty})`);
+      };
+
+      // Mouse events for desktop
+      rect.addEventListener('mouseenter', updateTooltip);
+      rect.addEventListener('mouseleave', () => {
+        if (!rect.classList.contains('active-room')) {
+          floorTooltip.setAttribute('visibility', 'hidden');
+        }
+      });
+
+      // Click / Touch events for mobile
+      rect.addEventListener('click', (e) => {
+        e.stopPropagation();
+        roomRects.forEach(r => r.classList.remove('active-room'));
+        rect.classList.add('active-room');
+        updateTooltip();
+      });
+    });
+
+    // Hide tooltip when clicking elsewhere
+    document.addEventListener('click', () => {
+      roomRects.forEach(r => r.classList.remove('active-room'));
+      floorTooltip.setAttribute('visibility', 'hidden');
+    });
+  }
+
 });
+

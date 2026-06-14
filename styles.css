@@ -1832,3 +1832,154 @@ ul, ol {
 .back-to-top:hover svg {
   fill: var(--green-deep);
 }
+
+
+/* ============================================================
+   INTERACTIVE 2D FLOOR PLAN & ELEVATION
+   ============================================================ */
+.interactive-plan {
+  padding: var(--section-pad) 0;
+  background: var(--cream);
+}
+
+.interactive-plan__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.interactive-plan__card {
+  background: var(--white);
+  border: 1px solid rgba(26, 74, 46, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.interactive-plan__card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.interactive-plan__card-title {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--green-deep);
+  margin-bottom: 6px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.interactive-plan__card-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.interactive-plan__svg-wrap {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 24px;
+  position: relative;
+  background: #f9f7f2;
+  border-radius: var(--radius-md);
+  padding: 10px;
+  border: 1px solid rgba(26, 74, 46, 0.05);
+}
+
+.interactive-plan__legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 18px;
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--charcoal);
+  font-weight: 500;
+}
+
+.legend-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  margin-right: 8px;
+  border: 1px solid rgba(0,0,0,0.15);
+  display: inline-block;
+}
+
+.interactive-plan__materials {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 12px;
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
+.material-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--charcoal);
+  background: var(--off-white);
+  padding: 6px 12px;
+  border-radius: 50px;
+  border: 1px solid rgba(0,0,0,0.05);
+  font-weight: 500;
+}
+
+.material-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+  display: inline-block;
+}
+
+/* SVG Room Hover Styling */
+.room-rect {
+  cursor: pointer;
+  transition: fill var(--transition), stroke var(--transition), stroke-width var(--transition), filter var(--transition);
+}
+
+.room-rect:hover, .room-rect.active-room {
+  fill: #c9a84c !important;
+  fill-opacity: 0.25;
+  stroke: var(--gold-dark) !important;
+  stroke-width: 2.5px;
+  filter: drop-shadow(0px 4px 8px rgba(201, 168, 76, 0.35));
+}
+
+/* Tooltip positioning */
+.floor-tooltip {
+  pointer-events: none;
+  transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Responsive adjustment for interactive grid */
+@media (max-width: 992px) {
+  .interactive-plan__grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .interactive-plan__card {
+    padding: 30px 20px;
+  }
+}
+
