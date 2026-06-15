@@ -12,7 +12,42 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🏠</text></svg>">
 </head>
-<body>
+<body class="gate-active">
+
+  <!-- ====================================================
+       LOGIN GATE OVERLAY
+       ==================================================== -->
+  <div id="loginGate" class="login-gate">
+    <div class="login-gate__box">
+      <svg class="login-gate__monogram" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="goldGradGate" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#e8d49a"/>
+            <stop offset="50%" style="stop-color:#c9a84c"/>
+            <stop offset="100%" style="stop-color:#a8882e"/>
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="46" fill="none" stroke="url(#goldGradGate)" stroke-width="2.5"/>
+        <path d="M30 75V25h6l20 32V25h6v50h-6L36 43v32h-6z" fill="url(#goldGradGate)"/>
+      </svg>
+      <h2 class="login-gate__title">NEELAKANTESHWAR NAGAR</h2>
+      <p class="login-gate__subtitle">Premium Villa Plots • Authorized Access Only</p>
+      
+      <form id="loginForm" class="login-gate__form">
+        <div class="login-gate__input-group">
+          <label for="gateUid">Username</label>
+          <input type="text" id="gateUid" name="uid" placeholder="Enter username" autocomplete="username" required>
+        </div>
+        <div class="login-gate__input-group">
+          <label for="gatePwd">Password</label>
+          <input type="password" id="gatePwd" name="pwd" placeholder="Enter password" autocomplete="current-password" required>
+        </div>
+        <div id="gateError" class="login-gate__error">Invalid credentials. Please try again.</div>
+        <button type="submit" class="btn btn--gold login-gate__btn">Access Portal</button>
+      </form>
+      <p class="login-gate__footer">© PNR Developers. All rights reserved.</p>
+    </div>
+  </div>
 
   <!-- ====================================================
        STICKY NAVBAR

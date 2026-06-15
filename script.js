@@ -333,5 +333,47 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ---- Login Gate Security ----
+  const loginGate = document.getElementById('loginGate');
+  const loginForm = document.getElementById('loginForm');
+  const gateUid = document.getElementById('gateUid');
+  const gatePwd = document.getElementById('gatePwd');
+  const gateError = document.getElementById('gateError');
+
+  // Check existing session auth
+  if (sessionStorage.getItem('neelakanteshwar_authorized') === 'true') {
+    if (loginGate) {
+      loginGate.classList.add('authorized');
+      document.body.classList.remove('gate-active');
+    }
+  } else {
+    document.body.classList.add('gate-active');
+  }
+
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const uid = gateUid.value.trim();
+      const pwd = gatePwd.value;
+
+      if (uid === 'varshnil' && pwd === 'munna') {
+        // Successful login
+        sessionStorage.setItem('neelakanteshwar_authorized', 'true');
+        gateError.classList.remove('show');
+        if (loginGate) {
+          loginGate.classList.add('authorized');
+        }
+        document.body.classList.remove('gate-active');
+      } else {
+        // Failed login
+        gateError.classList.add('show');
+        gatePwd.value = '';
+        gatePwd.focus();
+      }
+    });
+  }
+
 });
+
 
