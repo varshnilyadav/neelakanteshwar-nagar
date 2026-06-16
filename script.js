@@ -381,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Match against precomputed SHA-256 hashes
       if (uidHash === 'dd0b0df0cdb00a7d39b868d7773f771112b6e0b3873ba71aac31628a9f3c49e7' && 
-          pwdHash === '3947b64b4d15ef17f217ba251317a6a86b141287cf06723c451801a8a54908a3') {
+          pwdHash === '8ca5503396560d4cc4e14082a87d649197fcbd4584cc7e960b4b78cd4850e042') {
         // Successful login
         sessionStorage.setItem('neelakanteshwar_authorized', 'true');
         gateError.classList.remove('show');
