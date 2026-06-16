@@ -189,18 +189,22 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Simulate form submission
+      // Submit form via fetch for AJAX submission
       const submitBtn = enquiryForm.querySelector('.form-submit');
       submitBtn.textContent = 'Submitting...';
       submitBtn.disabled = true;
 
-      setTimeout(() => {
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData).toString()
+      })
+      .then(() => {
         // Show success message
         enquiryForm.style.display = 'none';
         formSuccess.classList.add('show');
 
-        // Log to console (for development)
-        console.log('Enquiry submitted:', data);
+        console.log('Enquiry successfully submitted to Netlify Forms:', data);
 
         // Reset after 5 seconds
         setTimeout(() => {
@@ -210,7 +214,13 @@ document.addEventListener('DOMContentLoaded', () => {
           submitBtn.textContent = 'Submit Enquiry';
           submitBtn.disabled = false;
         }, 5000);
-      }, 1500);
+      })
+      .catch((error) => {
+        console.error('Error submitting form:', error);
+        alert('There was an error submitting your enquiry. Please try again.');
+        submitBtn.textContent = 'Submit Enquiry';
+        submitBtn.disabled = false;
+      });
     });
   }
 
@@ -351,13 +361,27 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
+    // Helper to compute SHA-256 hash using native Web Crypto API
+    async function sha256(message) {
+      const msgBuffer = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
       const uid = gateUid.value.trim();
       const pwd = gatePwd.value;
 
-      if (uid === 'varshnil' && pwd === 'munna') {
+      // Hash credentials to check securely
+      const uidHash = await sha256(uid);
+      const pwdHash = await sha256(pwd);
+
+      // Match against precomputed SHA-256 hashes
+      if (uidHash === 'dd0b0df0cdb00a7d39b868d7773f771112b6e0b3873ba71aac31628a9f3c49e7' && 
+          pwdHash === '3947b64b4d15ef17f217ba251317a6a86b141287cf06723c451801a8a54908a3') {
         // Successful login
         sessionStorage.setItem('neelakanteshwar_authorized', 'true');
         gateError.classList.remove('show');
